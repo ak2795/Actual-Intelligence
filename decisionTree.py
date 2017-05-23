@@ -10,3 +10,9 @@ def decisionTree():
     for i in range(len(data)):
         for j in range(len(data[i])):
             print(data[i][j])
+
+
+
+
+# 3jgqhxg
+# http://whenisgood.net/3d39dyh/results/3jgqhxg
