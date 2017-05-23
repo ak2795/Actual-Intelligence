@@ -87,7 +87,7 @@ def main():
     attrNameList = []
     feat_labels = scanData(fname, attrNameList)
 
-    print(feat_labels[1])
+    # print(feat_labels[1])
     with open("features_labels.json", 'w') as outfile:
         json.dump(feat_labels, outfile, indent=3)
     # print (attrNameList)
