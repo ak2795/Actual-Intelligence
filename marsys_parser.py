@@ -1,4 +1,5 @@
 import sys
+from decisionTree import decisionTree
 
 def parseVars(fstream):
     tempDict = {}
@@ -58,6 +59,8 @@ def main():
     print (attrNameList)
     for key, value in attrNameToValues.items() :
         print(key)
+
+    decisionTree()
 
 
 if __name__ == "__main__":
