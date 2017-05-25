@@ -54,32 +54,26 @@ def parseVars(fstream):
         count += 1
     # print (count)
     # print ("\nlabels:\n{}\n".format(labels))
-    # print attrArr[0:3]
-    print(count)
-    print(len(labels))
     return (attrArr, labels)
 
 def scanData(tempInput, attrList):
     # fname = input("Enter Filename: ")
     marsysFile = open(tempInput, "r")
-    print ("Opened: " + tempInput)
     feat_labels = ()
 
     for line in marsysFile:
-        print(line)
         split = line.split(" ")
         # This gets rid ot the first created by marsys line
         if (split[0] == "%"):
             print (split[1])
         # This gets rid of the relation line
         elif (split[0] == "@relation"):
-            print ("RELATION")
+            print()
         # This parses the attribute names and puts them into an array
         elif (split[0] == "@attribute" and split[1] != "output"):
             attrList.append(split[1])
         # detects that the rest is data and parses it and breaks out of loop
         elif (split[0] == "@data\n"):
-            print ("HERE")
             feat_labels = parseVars(marsysFile)
             break
 
@@ -88,27 +82,22 @@ def scanData(tempInput, attrList):
 
 def randTrainTestData(feat_labels):
     twoArr = []
-
-
     givenData = feat_labels[0]
     answerData = feat_labels[1]
-
-    print(len(givenData))
-    print(len(answerData))
 
     trainData = []
     trainDataAns = []
     testData = []
     testDataAns = []
-    loop = True
 
     for i in range(10):
         numUsed = []
+        loop = True
         while loop:
             randIndex = randint(0,99)
             if randIndex not in numUsed:
                numUsed.append(randIndex)
-            if len(numUsed):
+            if len(numUsed) == 10:
                 loop = False
         for j in range(100):
            arrIndex = i*100 + j
@@ -132,20 +121,19 @@ def main():
     testData = randTrainTestData(feat_labels)
 
     # split into training and test set
-    with open("features_labelsTrain.json", "w") as outfile:
-        json.dump(testData[0], outfile, indent=3)
 
-    with open("features_labelsTest.json", "w") as outfile:
-        json.dump(testData[1], outfile, indent=3)
+    # Creates 10 files with random chosen training and dataset
+    # for each 100 songs genres 90 training and 10 testing
+    # total of 900 training and 100 testing
+    for i in range(10):
+        testData = randTrainTestData(feat_labels)
+        with open("tests/features_labelsTrain" + str(i) + ".json", "w") as outfile:
+            json.dump(testData[0], outfile, indent=3)
 
-    # print(feat_labels[1])
-    # with open("features_labels.json", 'w') as outfile:
-    #     json.dump(feat_labels, outfile, indent=3)
-    # print (attrNameList)
-    # for key, value in attrNameToValues.items():
-    #     print(value)
+        with open("tests/features_labelsTest" +str(i) + ".json", "w") as outfile:
+            json.dump(testData[1], outfile, indent=3)
 
-    decisionTree()
+    # Call your function here to do the processing
 
 
 if __name__ == "__main__":
