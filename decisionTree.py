@@ -7,9 +7,9 @@ def decisionTree():
     with open('features_labels.json') as data_file:
         data = json.load(data_file)
 
-    for i in range(len(data)):
-        for j in range(len(data[i])):
-            print(data[i][j])
+    # for i in range(len(data)):
+    #     for j in range(len(data[i])):
+    #         print(data[i][j])
 
 
 

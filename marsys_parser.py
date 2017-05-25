@@ -1,6 +1,7 @@
 import sys
 from decisionTree import decisionTree
 import json
+from random import randint
 
 def parseVars(fstream):
     attrArr = []
@@ -54,6 +55,8 @@ def parseVars(fstream):
     # print (count)
     # print ("\nlabels:\n{}\n".format(labels))
     # print attrArr[0:3]
+    print(count)
+    print(len(labels))
     return (attrArr, labels)
 
 def scanData(tempInput, attrList):
@@ -63,6 +66,7 @@ def scanData(tempInput, attrList):
     feat_labels = ()
 
     for line in marsysFile:
+        print(line)
         split = line.split(" ")
         # This gets rid ot the first created by marsys line
         if (split[0] == "%"):
@@ -82,14 +86,61 @@ def scanData(tempInput, attrList):
     marsysFile.close()
     return feat_labels
 
+def randTrainTestData(feat_labels):
+    twoArr = []
+
+
+    givenData = feat_labels[0]
+    answerData = feat_labels[1]
+
+    print(len(givenData))
+    print(len(answerData))
+
+    trainData = []
+    trainDataAns = []
+    testData = []
+    testDataAns = []
+    loop = True
+
+    for i in range(10):
+        numUsed = []
+        while loop:
+            randIndex = randint(0,99)
+            if randIndex not in numUsed:
+               numUsed.append(randIndex)
+            if len(numUsed):
+                loop = False
+        for j in range(100):
+           arrIndex = i*100 + j
+           if j in numUsed:
+               testData.append(givenData[arrIndex])
+               testDataAns.append(answerData[arrIndex])
+           else:
+               trainData.append(givenData[arrIndex])
+               trainDataAns.append(answerData[arrIndex])
+
+    twoArr.append([trainData, trainDataAns])
+    twoArr.append([testData, testDataAns])
+
+    return twoArr
+
 def main():
     fname = "MARSYAS_SINGLEfeatures.arff"
     attrNameList = []
     feat_labels = scanData(fname, attrNameList)
 
+    testData = randTrainTestData(feat_labels)
+
+    # split into training and test set
+    with open("features_labelsTrain.json", "w") as outfile:
+        json.dump(testData[0], outfile, indent=3)
+
+    with open("features_labelsTest.json", "w") as outfile:
+        json.dump(testData[1], outfile, indent=3)
+
     # print(feat_labels[1])
-    with open("features_labels.json", 'w') as outfile:
-        json.dump(feat_labels, outfile, indent=3)
+    # with open("features_labels.json", 'w') as outfile:
+    #     json.dump(feat_labels, outfile, indent=3)
     # print (attrNameList)
     # for key, value in attrNameToValues.items():
     #     print(value)
