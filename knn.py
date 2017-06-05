@@ -1,3 +1,7 @@
+
+import matplotlib
+matplotlib.use('Agg')
+
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn import manifold
 import numpy as np
@@ -53,11 +57,6 @@ def printKNN(data_x, data_y):
             if row[1] < y_min:
                 y_min = row[1]
 
-        # print("x_max: " + str(x_max))
-        # print("x_min: " + str(x_min))
-        # print("y_max: " + str(y_max))
-        # print("y_min: " + str(y_min))
-
         x_max += .5
         x_min -= .5
         y_max += .5
@@ -72,8 +71,7 @@ def printKNN(data_x, data_y):
         plt.figure()
         plt.pcolormesh(xx, yy ,Z, cmap=cmap_light)
 
-plt.show()
-                 
+    plt.savefig('test.png')                 
 
 def testKNN():
     for numTimes in range(10):
