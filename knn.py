@@ -19,7 +19,7 @@ def kneighbors():
         # using k = 30
         knn = KNeighborsClassifier(n_neighbors = 30)
         neigh = knn.fit(data[0], data[1])
-        printKNN(data[0], data[1])
+        # printKNN(data[0], data[1])
 
         return neigh
 
@@ -42,7 +42,7 @@ def printKNN(data_x, data_y):
 
         knn = KNeighborsClassifier(n_neighbors, weights=weights)
         knn.fit(X, Y) # fit the data
-        
+
         x_min, x_max = X[0][0], X[0][0]
         y_min, y_max = X[0][0], X[0][0]
 
@@ -71,7 +71,7 @@ def printKNN(data_x, data_y):
         plt.figure()
         plt.pcolormesh(xx, yy ,Z, cmap=cmap_light)
 
-    plt.savefig('test.png')                 
+    plt.savefig('test.png')
 
 def testKNN():
     for numTimes in range(10):
@@ -92,8 +92,8 @@ def testKNN():
         print("\tk-Nearest Neighbors: " + str(count) + " out of " + str(total))
 
 def main():
-    # testKNN()
-    kneighbors()
+    testKNN()
+    # kneighbors()
 
 if __name__ == "__main__":
     main()
