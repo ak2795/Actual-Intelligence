@@ -5,6 +5,7 @@ import json
 import numpy as np
 import matplotlib.pyplot as plt
 from mlxtend.plotting import plot_decision_regions
+import os
 
 def svm_func():
    for nt in range(10):
@@ -72,11 +73,38 @@ def svm_graphs(mdls,data, test_n):
          filename += 'SvcPoly'
       filename += '.png'
       plt.savefig(filename)
-         
-def main():
-   svm_func()
 
+def svm_test(test_file):
+   if (os.path.isfile(test_file)):
+      with open(test_file) as data_file:
+         data_test = json.load(data_file)
    
-   
+      nt = 2
+      print("Using: tests/features_labelsTrain" + str(nt) + ".json to train")
+      with open('tests/features_labelsTrain' + str(nt) + '.json') as data_file:
+         data = json.load(data_file)
+         
+      C = 1   
+      clf = svm.SVC(kernel='poly', degree=3, C=C)
+      clf.fit(data[0], data[1])
+      
+      predicts = clf.predict(data_test[0])
+      answers = data_test[1]
+      correct = 0
+      total = len(data_test[1])
+      
+      for i in range(total):
+         if predicts[i] == answers[i]:
+            correct += 1
+      
+      print("\tSVC with polynomial (degree 3) kernel" + ": " + str(correct) + " out of " + str(total)) 
+   else:
+      print("Test File: " + test_file + " doesn't exist")
+      
+def main():
+  #svm_func()
+  
+  svm_test(raw_input("File to test: "))
+  
 if __name__ == "__main__":
    main()   
