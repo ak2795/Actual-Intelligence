@@ -42,7 +42,7 @@ def printKNN(data_x, data_y):
 
         knn = KNeighborsClassifier(n_neighbors, weights=weights)
         knn.fit(X, Y) # fit the data
-        
+
         x_min, x_max = X[0][0], X[0][0]
         y_min, y_max = X[0][0], X[0][0]
 
@@ -57,10 +57,10 @@ def printKNN(data_x, data_y):
             if row[1] < y_min:
                 y_min = row[1]
 
-        x_max += .5
-        x_min -= .5
-        y_max += .5
-        y_min -= .5
+        x_max += 1.5
+        x_min -= 1.5
+        y_max += 1.5
+        y_min -= 1.5
 
         xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
                             np.arange(y_min, y_max, h))
@@ -71,7 +71,17 @@ def printKNN(data_x, data_y):
         plt.figure()
         plt.pcolormesh(xx, yy ,Z, cmap=cmap_light)
 
-    plt.savefig('test.png')                 
+        for row in X:
+            plt.scatter(row[0], row[1])
+        plt.xlabel('FEATURE 1')
+        plt.ylabel("FETATURE 2")
+
+        plt.xlim(xx.min(), xx.max())
+        plt.ylim(yy.min(), yy.max())
+        plt.xticks(())
+        plt.yticks(())
+
+    plt.savefig('Docs/knnClassifier.png')
 
 def testKNN():
     for numTimes in range(10):
@@ -86,8 +96,8 @@ def testKNN():
 
         for i in range(len(answers)):
             if (tempPred[i] == answers[i]):
-                count += 1
-            total += 1
+                count += 1.5
+            total += 1.5
 
         print("\tk-Nearest Neighbors: " + str(count) + " out of " + str(total))
 
